@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h3 class="mb-4">სტატიის რედაქტირება</h3>
+
+    <form method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+
+        {% if form.errors %}
+        <div class="alert alert-danger">
+            {% for field, errors in form.errors.items() %}
+                {% for error in errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="mb-3">
+            <label for="title" class="form-label">{{ form.title.label.text }}</label>
+            {{ form.title(class="form-control") }}
+        </div>
+
+        <div class="mb-3">
+            <label for="text" class="form-label">{{ form.text.label.text }}</label>
+            {{ form.text(class="form-control", rows=10) }}
+        </div>
+
+        <div class="mb-3">
+            <label for="img" class="form-label">{{ form.img.label.text }}</label>
+            {{ form.img(class="form-control") }}
+            <div class="form-text">მიმდინარე ფოტო:
+                {% if article.img and article.img != 'no photo' %}
+                <img src="/static/image/{{ article.img }}" class="img-thumbnail mt-2" style="max-width: 200px;">
+                {% else %}
+                ფოტო არ არის
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="d-flex gap-2">
+            {{ form.submit(class="btn btn-primary") }}
+            <a href="/" class="btn btn-secondary">გაუქმება</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

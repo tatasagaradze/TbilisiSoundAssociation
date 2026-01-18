@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h3>რეგისტრაცია</h3>
+<div class="row justify-content-around">
+    <div class="col">
+        <form method="POST">
+            {{ form.hidden_tag() }}
+
+            {% if form.errors %}
+            <div class="alert alert-danger">
+                {% for field, errors in form.errors.items() %}
+                    {% for error in errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <div class="row mt-3">
+                {{ form.username.label }}
+                {{ form.username(class="form-control") }}
+                {% if form.username.errors %}
+                <div class="text-danger">
+                    {% for error in form.username.errors %}
+                        <small>{{ error }}</small><br>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="row mt-3">
+                {{ form.email.label }}
+                {{ form.email(class="form-control") }}
+                {% if form.email.errors %}
+                <div class="text-danger">
+                    {% for error in form.email.errors %}
+                        <small>{{ error }}</small>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="row mt-3">
+                {{ form.password.label }}
+                {{ form.password(class="form-control") }}
+                <div class="form-text">პაროლი უნდა შეიცავდეს მინიმუმ 4 სიმბოლოს</div>
+                {% if form.password.errors %}
+                <div class="text-danger">
+                    {% for error in form.password.errors %}
+                        <small>{{ error }}</small><br>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="row mt-3">
+                {{ form.confirm_password.label }}
+                {{ form.confirm_password(class="form-control") }}
+
+            </div>
+
+            <div class="row mt-3">
+                {{ form.submit(class="btn btn-success") }}
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+<!--{% for errors in form.errors.values() %}
+        <div class = "alert alert-danger">
+            {% for error in errors%}
+            {{ errors }}
+        {%endfor%}
+        </div>
+    {%endfor%}
+
+             <form method='POST' class = "col-2">
+                {{ form.csrf_token }}
+                {{ form.hidden_tag() }} </form>-->

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% for msg in messages%}
+            <div class="alert alert-success">
+                  {{ msg }}
+            </div>
+        {%endfor%}
+    {% endwith %}
+    <h3>კონცერტები და სემინარები</h3>
+    <br>
+        <form class="d-flex ms-auto">
+            <a class="btn btn-outline-success me-2" href="/create_concert"> + დაამატე შენი კონცერტი </a>
+        </form>
+
+<div class="row justify-content-center g-5">
+     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 g-5 ">
+
+        {% for concert in concerts %}
+          <div class="card" style="width: 18rem;">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                    {% if current_user.is_authenticated and current_user.is_admin() %}
+                    <div>
+                        <a href="/update_concert/{{ concert['id'] }}" class="btn btn-warning btn-sm me-2">რედაქტირება</a>
+                        <a href="/delete_concert/{{ concert['id'] }}"
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('დარწმუნებული ხართ, რომ გსურთ კონცერტის წაშლა?')">წაშლა</a>
+                    </div>
+                    {% endif %}
+            </div>
+            <img src="/static/image/{{ concert['img'] }}" class="card-img-top" alt="...">
+            <div class="card-body">
+            <p class="card-text">
+                <small class="text-muted">
+                    თარიღი: {{ concert["datetime"] }}<br>
+                    ავტორი: <strong>{{ concert["user_name"] }}</strong>
+
+                </small>
+            </p>
+            <a href="/workshop_info/{{ concert['id'] }}" class="btn btn-primary">მეტი ინფორმაცია</a>
+          </div>
+        </div>
+        {% endfor %}
+        </div>
+</div>
+{% endblock %}

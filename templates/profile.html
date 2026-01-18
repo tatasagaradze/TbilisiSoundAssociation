@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">ჩემი პროფილი</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>სახელი:</strong> {{ current_user.username }}</p>
+                    <p><strong>ელ. ფოსტა:</strong> {{ current_user.email }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header bg-secondary text-white">
+            <h5 class="mb-0">ჩემი კონცერტები/სემინარები ({{ concerts|length }})</h5>
+        </div>
+        <div class="card-body">
+            {% if concerts %}
+            <div class="row">
+                {% for concert in concerts %}
+                <div class="col-md-6 mb-3">
+                    <div class="card h-100">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="/static/image/{{ concert.img }}" class="img-fluid rounded-start h-100" alt="..." style="object-fit: cover;">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h6 class="card-title">{{ concert.name }}</h6>
+                                    <p class="card-text"><small class="text-muted">{{ concert.datetime }}</small></p>
+                                    ავტორი: <strong>{{ concert.user_name }}</strong>
+                                    <p class="card-text" style="font-size: 0.9rem;">
+                                        {{ concert.info[:100] }}
+                                    </p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <a href="/workshop_info/{{ concert.id }}" class="btn btn-sm btn-outline-primary">ნახვა</a>
+
+                                        <div>
+                                            <a href="/update_concert/{{ concert.id }}" class="btn btn-sm btn-warning">რედაქტირება</a>
+                                            <a href="/delete_concert/{{ concert.id }}"
+                                               class="btn btn-sm btn-danger"
+                                               onclick="return confirm('დარწმუნებული ხართ?')">წაშლა</a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="text-center py-4">
+                <p class="text-muted">თქვენ ჯერ არ შეგიქმნიათ კონცერტები</p>
+                <a href="/create_concert" class="btn btn-success">შექმენით პირველი კონცერტი</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-secondary text-white">
+            <h5 class="mb-0">ჩემი სტატიები ({{ articles|length }})</h5>
+        </div>
+        <div class="card-body">
+            {% if articles %}
+            <div class="list-group">
+                {% for article in articles %}
+                <div class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h6 class="mb-1">{{ article.title }}</h6>
+                        <small>{{ article.created_at if article.created_at else "თარიღი არ არის" }}</small>
+                    </div>
+                    <p class="mb-1">{{ article.text[:150] }}{% if article.text|length > 150 %}...{% endif %}</p>
+                    <div class="d-flex justify-content-between align-items-center mt-2">
+                        <small class="text-muted">
+                            {% if article.img and article.img != 'no photo' %}
+                            <span class="badge bg-secondary">ფოტოთი</span>
+                            {% endif %}
+                        </small>
+                        <div>
+                            <a href="/article_info/{{ article.id }}" class="btn btn-sm btn-outline-primary">ნახვა</a>
+
+                            <a href="/update_article/{{ article.id }}" class="btn btn-sm btn-warning">რედაქტირება</a>
+                            <a href="/delete_article/{{ article.id }}"
+                               class="btn btn-sm btn-danger"
+                               onclick="return confirm('დარწმუნებული ხართ?')">წაშლა</a>
+
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="text-center py-4">
+                <p class="text-muted">თქვენ ჯერ არ შეგიქმნიათ სტატიები</p>
+                <a href="/create_article" class="btn btn-success">შექმენით პირველი სტატია</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

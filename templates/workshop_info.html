@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="card">
+        <img src="/static/image/{{ Concert['img'] }}" class="card-img-top" alt="..." style="max-height: 400px; object-fit: cover;">
+        <div class="card-body">
+            <h2 class="card-title">{{ Concert["name"] }}</h2>
+            <div class="mb-3">
+                <p class="card-text mb-1"><strong>თარიღი:</strong> {{ Concert["datetime"] }}</p>
+                <p class="card-text mb-1"><strong>ავტორი:</strong> {{ Concert["user_name"] }}</p>
+            </div>
+            <p class="card-text">{{ Concert["info"] }}</p>
+
+            {% if current_user.is_authenticated and current_user.is_admin() %}
+            <div class="mt-4">
+                <a href="/update_concert/{{ Concert['id'] }}" class="btn btn-warning me-2">რედაქტირება</a>
+                <a href="/delete_concert/{{ Concert['id'] }}"
+                   class="btn btn-danger"
+                   onclick="return confirm('დარწმუნებული ხართ, რომ გსურთ კონცერტის წაშლა?')">წაშლა</a>
+            </div>
+            {% endif %}
+
+            <a href="/workshops" class="btn btn-primary mt-3"><- უკან</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

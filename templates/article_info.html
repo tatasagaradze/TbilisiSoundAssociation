@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <div class="card text-center">
+      <h3 class="card-title">{{ article["title"]}}</h3>
+    </div>
+    <div>
+        {% if current_user.is_authenticated and current_user.is_admin() %}
+            <a href="/update_article/{{ article.id }}" class="btn btn-sm btn-warning">რედაქტირება</a>
+            <a href="/delete_article/{{ article.id }}"
+               class="btn btn-sm btn-danger"
+               onclick="return confirm('დარწმუნებული ხართ?')">წაშლა</a>
+        {% endif %}
+    </div>
+    <div>
+            <small class="text-muted">
+                ავტორი: <strong>{{ article["user_name"] }}</strong>
+            </small>
+            <br>
+            <small class="text-muted">
+                {% if article.created_at %}
+                    {{ article.created_at }}
+                {% else %}
+                    თარიღი არ არის მითითებული
+                {% endif %}
+            </small>
+        </div>
+     <p class="card-text">{{ article["text"] }}</p>
+     {% if article.img and article.img not in ['no photo', 'null', '', None] %}
+            <img src="/static/image/{{ article['img'] }}" class="card-img-top" alt="..." width = "150px" height="70px">
+    {% endif %}
+
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h3 class="mb-4">კონცერტის რედაქტირება</h3>
+
+    <form method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+
+        {% if form.errors %}
+        <div class="alert alert-danger">
+            {% for field, errors in form.errors.items() %}
+                {% for error in errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="mb-3">
+            <label for="name" class="form-label">{{ form.name.label.text }}</label>
+            {{ form.name(class="form-control") }}
+        </div>
+
+        <div class="mb-3">
+            <label for="datetime" class="form-label">{{ form.datetime.label.text }}</label>
+            {{ form.datetime(class="form-control") }}
+        </div>
+
+        <div class="mb-3">
+            <label for="info" class="form-label">{{ form.info.label.text }}</label>
+            {{ form.info(class="form-control", rows=5) }}
+        </div>
+
+        <div class="mb-3">
+            <label for="img" class="form-label">{{ form.img.label.text }}</label>
+            {{ form.img(class="form-control") }}
+            <div class="form-text">მიმდინარე ფოტო:
+
+                <img src="/static/image/{{ concert.img }}" class="img-thumbnail mt-2" style="max-width: 200px;">
+
+            </div>
+        </div>
+
+        <div class="d-flex gap-2">
+            {{ form.submit(class="btn btn-primary") }}
+            <a href="/workshops" class="btn btn-secondary">გაუქმება</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

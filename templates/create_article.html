@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h3>დაწერეთ სტატია</h3>
+    {% for errors in form.errors.values() %}
+        <div class = "alert alert-danger">
+            {% for error in errors%}
+            {{ errors }}
+            {%endfor%}
+        </div>
+    {%endfor%}
+        <div class = "row justiify-content-around">
+            <form method='POST' enctype="multipart/form-data"  class= "col-8">
+                {{ form.csrf_token }}
+                {{ form.hidden_tag() }}
+                <div class="row ">
+                    {{ form.title.label.text }}
+                    {{ form.title(class = "form-control")}}
+                </div>
+                <div class="row mt-3">
+                    {{ form.text(placeholder = form.text.label.text, class = "form-control") }}
+                </div>
+                <div class="row mt-3">
+                    {{ form.img.label.text }}
+                    {{ form.img(class = "form-control") }}
+                </div>
+                <div class="row mt-3">
+                    {{ form.submit(placeholder = form.submit.label.text,  class = "btn btn-success") }}
+                </div>
+            </form>
+        </div>
+{% endblock %}
