@@ -89,7 +89,7 @@ def create_articles():
 
 @app.route("/aboutus")
 def aboutus():
-    return render_template("aboutUs.html")
+    return render_template("aboutus.html")
 
 
 @app.route("/workshops")
@@ -234,4 +234,5 @@ def profile():
     user_articles = Article.query.filter_by(user_id=current_user.id).all()
 
     return render_template("profile.html", concerts=user_concerts, articles=user_articles, current_user=current_user)
+
 
